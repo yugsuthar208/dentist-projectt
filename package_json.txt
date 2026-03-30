@@ -1,0 +1,41 @@
+==========================================
+  PACKAGE.JSON - Project Configuration
+==========================================
+
+This file fundamentally explains the identity and structural requirements of the Node.js application to the host operating system.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. APPLICATION METADATA & ENTRY POINT
+```json
+"name": "dental-clinic-project",
+"version": "1.0.0",
+"description": "",
+"main": "server.js",
+```
+Explanation:
+This dictionary defines the project's core. The `main: "server.js"` line is essential. When you command a cloud service or a server to host this package, it reads this line first to understand *where* the ignition point of the application actually resides, executing it automatically.
+
+2. PRODUCTION DEPENDENCIES (THE ENGINE BLOCKS)
+```json
+"dependencies": {
+  "bcrypt": "^5.1.1",
+  "cors": "^2.8.5",
+  "express": "^4.21.2",
+  "express-session": "^1.18.1",
+  "mysql2": "^3.12.0",
+  "node-cron": "^3.0.3",
+  "nodemailer": "^6.10.0"
+}
+```
+Explanation:
+This is the required parts list for the application. Each line declares an exact package and its minimal accepted version.
+When calculating `npm install`, the Node Package Manager recursively traverses the internet to download these specific blocks of code, placing them securely in the `node_modules` folder.
+*   `express` builds the API routing.
+*   `bcrypt` handles cryptographic hashing.
+*   `express-session` handles browser memory tokens.
+*   `mysql2` acts as the translation layer between Node.js and the SQL Database.
+*   `nodemailer` and `node-cron` handle the outbound messaging and temporal loops.
+The `^` caret symbol informs NPM that it is allowed to download minor security patches above the stated version natively, but must NEVER jump to a major new version that could inherently shatter the code logic.

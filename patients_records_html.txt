@@ -1,0 +1,44 @@
+==========================================
+  PATIENTS-RECORDS.HTML - Patients Records Page
+==========================================
+
+This is the central reporting page that joins all data (patients, treatments, prescriptions, billing) into one massive spreadsheet-like table. It also contains the powerful Google Sheets export and manual SMS notification features.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. EXPORT AND MASTER DELETE BUTTONS
+```html
+<button id="export-btn" class="btn-export" onclick="sendToGoogleSheets()">Send to Google Sheet</button>
+<button onclick="deleteAllData()" style="background-color: #dc3545; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">Delete All Data</button>
+```
+Explanation:
+These two buttons perform account-wide bulk actions.
+`sendToGoogleSheets()` gathers every row from the massive table generated below, formats them into a JSON array, and issues a POST request to a Google Apps Script Web App URL to push the data into the cloud.
+`deleteAllData()` issues a `DELETE /api/delete-all` request to the backend. The backend SQL queries are structured to cascade the deletion: it first deletes children (bills/prescriptions/treatments), then the parent (patient), ensuring no database lock errors occur, and strictly enforcing the `user_id` so the doctor only deletes their own private records.
+
+2. CONDITIONAL "SEND REMINDER" BUTTON RENDERING
+```javascript
+// Inside loadAllRecords() in script.js
+<td>
+    <button style="..." onclick="deletePatientRecord('${currentPatient.patient_id}')">Delete</button>
+    ${matchTreatment.next_date ? '<button style="..." onclick="sendManualReminder(\'' + currentPatient.name.replace(/'/g, "\\'") + '\')">📩 Send Reminder</button>' : ''}
+</td>
+```
+Explanation:
+This logic controls the "Action" column in the master table.
+It uses a JavaScript **Ternary Operator** (`condition ? true_result : false_result`).
+It looks at the `next_date` column of the treatment database entry. If it EXISTS (it has a date), the system injects the HTML button code for "📩 Send Reminder". If it is NULL/EMPTY (the treatment has no future appointment), it returns an empty string (`''`), meaning the button is entirely hidden from the screen.
+The `.replace(/'/g, "\\'")` fix is critical. If a patient is named "O'Brian", the literal single quote mark would break the HTML logic (`onclick="sendManualReminder('O'Brian')"`); the replace function escapes it securely.
+
+3. TABLE RESPONSIVENESS
+```html
+<div class="table-responsive">
+    <table>
+        <!-- ... 17 columns ... -->
+    </table>
+</div>
+```
+Explanation:
+Because this master table has 17 separate columns, it physically cannot fit on most computer screens. The `.table-responsive` CSS class wrapper applies an `overflow-x: auto;` rule, creating a smooth horizontal scrollbar specifically for the table boundary. This ensures the page layout doesn't break and the user can simply sweep left and right to read the complete dataset without zooming out their browser.

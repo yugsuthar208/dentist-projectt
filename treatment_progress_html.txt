@@ -1,0 +1,30 @@
+==========================================
+  TREATMENT-PROGRESS.HTML - Treatment Progress Page
+==========================================
+
+This page tracks the ongoing dental work for patients. Crucially, this page captures the "Next Appointment Date" which powers the automated SMS and Email reminder system.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. AUTO-COMPLETE DATALIST
+```html
+<label for="patientName">Patient Name: *</label>
+<input type="text" id="patientName" list="patientNames" autocomplete="off" onblur="autofillPatientDetails()" required placeholder="Start typing name...">
+<datalist id="patientNames">
+    <!-- Options will be loaded dynamically -->
+</datalist>
+```
+Explanation:
+This is a standard `<input type="text">` linked to a hidden `<datalist id="patientNames">`. 
+When the page loads, `script.js` pulls all your patients from the server and populates the `<datalist>` with `<option>` tags. As the doctor types in the text box, the browser natively creates a drop-down menu of suggestions based on the datalist.
+The `onblur="autofillPatientDetails()"` is a smart automation feature: the moment the user clicks out of the Name box (`blur` event), JavaScript steps in, tries to match the entered name to a known patient, and automatically copies their original dental "problem" directly into the "Treatment Name" box below to save the doctor from typing it manually!
+
+2. DATE FORMAT ENFORCEMENT
+```html
+<label for="nextDate">Next Appointment Date: (Optional)</label>
+<input type="date" id="nextDate">
+```
+Explanation:
+By using `<input type="date">`, the browser forces the user to select a valid calendar date, returning it safely as `YYYY-MM-DD` (e.g., 2026-03-30). This is critical, because the Node.js backend cron job (the notification engine) looks for exact calendar day matches in the database. Without strict `type="date"`, a typo like "March 3oth" would break the reminder system silently.

@@ -1,0 +1,67 @@
+==========================================
+  LOGIN.HTML - Login and Signup Page
+==========================================
+
+This page is the gateway to the application. It ensures that only authorized users can access patient data, providing the foundation for multi-tenant security.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. TAB SWITCHING LOGIC
+```javascript
+function switchTab(tab) {
+    if (tab === 'login') {
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('signup-form').style.display = 'none';
+        // ... (updates active button styling) ...
+    } else {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('signup-form').style.display = 'block';
+        // ... (updates active button styling) ...
+    }
+}
+```
+Explanation:
+This JavaScript function controls the UI view. Both the login and signup forms exist in the HTML at the same time, but one is hidden using CSS (`style.display = 'none'`). When the user clicks the "Login" or "Sign Up" buttons at the top, this function simply toggles which form is visible (`'block'`) and which is hidden (`'none'`).
+
+2. SECURE FETCH REQUEST (LOGIN)
+```javascript
+fetch(SERVER_URL + '/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include', // CRITICAL FOR SESSIONS
+    body: JSON.stringify({ email: emailValue, password: passwordValue })
+})
+.then(response => response.json())
+.then(data => {
+    if (data.error) {
+        document.getElementById('login-error').innerText = data.error;
+    } else {
+        window.location.href = 'index.html'; // Redirect on success
+    }
+})
+```
+Explanation:
+This is the core of the login process. It takes the email and password entered by the user and sends them to the Node.js server via a POST request.
+The `credentials: 'include'` line is the most important part! It tells the browser to accept and store the "session cookie" that the server sends back upon successful login. Without this cookie, the server would forget who you are on the very next click.
+If the server responds with an error (like "Invalid password"), it's displayed on screen. If successful, it redirects you to the dashboard (`index.html`).
+
+3. INLINE CSS FOR STYLING
+```html
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+        /* ... */
+    }
+    .auth-container {
+        background-color: #1a1a2e;
+        border-radius: 10px;
+        /* ... */
+    }
+</style>
+```
+Explanation:
+Unlike other pages that rely solely on `style.css`, the login page has its own inline styles. This is done to give it a distinct, full-screen centered look with a gradient background, separating it visually from the inner pages of the app.

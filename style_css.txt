@@ -1,0 +1,65 @@
+==========================================
+  STYLE.CSS - All Website Styles
+==========================================
+
+This file controls the visual presentation of the entire application, establishing the continuous dark modern theme.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. GLOBAL CASCADING VARIABLES (THE THEME)
+```css
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a2e;
+    color: #e0e0e0;
+    margin: 0;
+}
+```
+Explanation:
+This snippet sets the foundational aesthetic. Every piece of text inside the application will use the `Arial` font (or a standard sans-serif fallback if Arial is missing). It paints the screen's canvas a very dark, blue-tinted gray (`#1a1a2e`) and ensures text is rendered in a soft off-white (`#e0e0e0`) for high contrast readability without the harsh glare of pure `#ffffff` white.
+
+2. COMPONENT SHAPING & HOVER STATES
+```css
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #218838;
+}
+```
+Explanation:
+This forces all standard buttons to adopt a uniform size, spacing (`padding`), and rounded look (`border-radius: 4px`). It disables the ugly, default browser styling (`border: none`) and paints it an inviting green (`#28a745`). The `cursor: pointer` changes the mouse arrow to a hand, signaling clickability.
+The `button:hover` pseudo-class creates interactivity. When the doctor rests their mouse over the button, it smoothly darkens to `#218838`, providing immediate visual feedback that the element is active.
+
+3. FORMS & INPUT FOCUS
+```css
+input[type="text"], input[type="number"], input[type="tel"], 
+input[type="email"], input[type="password"], input[type="date"], 
+select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #16213e;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #16213e;
+    color: #e0e0e0;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+}
+```
+Explanation:
+This selector group captures every single type of input box across the app. It forces them to expand to the full `100%` width of their bounding container. `box-sizing: border-box` is critical: it tells the browser to include the padding space *inside* the 100% width measurement, preventing the box from bulging past the screen edge!
+The `:focus` state activates when the user clicks inside a text box. It strips away the browser's default blue glow ring (`outline: none`) and replaces it with a clean, themed blue border (`#4a90e2`), subtly indicating which field is currently receiving keyboard input.

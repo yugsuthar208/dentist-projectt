@@ -1,0 +1,31 @@
+==========================================
+  MIGRATE.SQL - Database Migration Script
+==========================================
+
+This file resolves the transition between older, single-user architectures and the current, multi-doctor secure isolated environment.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. FORCING STRUCTURAL UPDATES AND DEFAULT ASSIGNMENTS
+```sql
+-- Step 2: Add user_id column to existing tables (defaults to 1 for existing data)
+ALTER TABLE patients ADD COLUMN user_id INT NOT NULL DEFAULT 1 AFTER id;
+ALTER TABLE treatments ADD COLUMN user_id INT NOT NULL DEFAULT 1 AFTER id;
+ALTER TABLE prescriptions ADD COLUMN user_id INT NOT NULL DEFAULT 1 AFTER id;
+ALTER TABLE bills ADD COLUMN user_id INT NOT NULL DEFAULT 1 AFTER id;
+```
+Explanation:
+The `ALTER TABLE` command cracks open an existing database table and injects a new column instantly, without erasing any of the old data originally stored inside.
+The problem is `NOT NULL` means every row *must* have an integer, but old records obviously don't have a linked doctor account. The `DEFAULT 1` parameter forcefully solves this. It scans every legacy row and brands them with `user_id = 1`. The very first doctor who sets up an account on the new system will be assigned ID `1`, seamlessly absorbing and inheriting all the history of the clinic, while doctor `2` will start fresh.
+
+2. ENFORCING RELATIONAL FOREIGN KEYS
+```sql
+-- Step 3: Add foreign key constraints to link the tables to users
+ALTER TABLE patients ADD CONSTRAINT fk_user_patients FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE treatments ADD CONSTRAINT fk_user_treatments FOREIGN KEY (user_id) REFERENCES users(id);
+```
+Explanation:
+Once the new `user_id` columns exist, the system issues an `ADD CONSTRAINT` command. 
+This immediately locks the database down, converting simple integers into strict parental bonds (`FOREIGN KEY`). A patient can no longer exist without mapping explicitly to a root `users` account ID.

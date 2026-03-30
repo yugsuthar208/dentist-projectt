@@ -1,0 +1,47 @@
+==========================================
+  ADD-PATIENT.HTML - Add New Patient Page
+==========================================
+
+This page provides the form for registering a new patient into the system, collecting their basic information and contact details.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. REQUIRED FORM FIELDS
+```html
+<div class="form-group">
+    <label for="name">Patient Full Name: *</label>
+    <input type="text" id="name" required placeholder="Enter patient name">
+</div>
+<div class="form-group">
+    <label for="mobile">Mobile Number: *</label>
+    <input type="tel" id="mobile" required placeholder="10-digit mobile number" pattern="[0-9]{10}">
+</div>
+```
+Explanation:
+These input fields use standard HTML5 form validation. 
+The `required` attribute means the browser will automatically stop the user from submitting the form if these fields are empty.
+The `pattern="[0-9]{10}"` attribute on the mobile input is a regular expression enforcing that the user must enter exactly 10 numeric digits. If they enter text or 9 digits, the browser will show a warning popup natively.
+
+2. SUBMIT EVENT HOOK
+```html
+<form id="add-patient-form">
+    <!-- form fields here -->
+    <button type="submit">Save Patient</button>
+</form>
+```
+Explanation:
+The form has an ID (`add-patient-form`) and a button with `type="submit"`. 
+In `script.js`, there is an event listener that "listens" for this form to be submitted: `document.getElementById("add-patient-form").addEventListener("submit", savePatient);`.
+When the user clicks "Save Patient", JavaScript captures the event, calls `event.preventDefault()` to stop the page from reloading, and takes over to send the data to the server seamlessly.
+
+3. OPTIONAL FIELDS
+```html
+<div class="form-group">
+    <label for="email">Email Address: (Optional)</label>
+    <input type="email" id="email" placeholder="For email reminders">
+</div>
+```
+Explanation:
+This is an optional field (no `required` tag). The `type="email"` attribute tells the browser to validate that the text entered looks like an email address (contains an "@" symbol). This email is later used by the backend `server.js` node-cron job to send automated appointment reminders.

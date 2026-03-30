@@ -1,0 +1,43 @@
+==========================================
+  BILLING.HTML - Billing Page
+==========================================
+
+This page tracks the financial aspect, calculating the total cost, money paid, and automating the calculation of remaining debt.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. CURRENCY-SPECIFIC INPUTS
+```html
+<div class="form-group">
+    <label for="totalCost">Total Cost (₹): *</label>
+    <input type="number" id="totalCost" min="0" step="0.01" required placeholder="Total amount">
+</div>
+<div class="form-group">
+    <label for="amountPaid">Amount Paid (₹): *</label>
+    <input type="number" id="amountPaid" min="0" step="0.01" required placeholder="Amount paid today">
+</div>
+```
+Explanation:
+Because this deals with money, the `type="number"` attribute is strictly enforced.
+The `min="0"` ensures the doctor cannot accidentally enter negative money.
+The `step="0.01"` allows for decimal numbers representing currency cents (e.g., 500.50 rupees). Without `step="0.01"`, browsers only allow whole integers by default and would throw an error if a decimal was entered.
+
+2. AUTO-CALCULATION LOGIC
+```javascript
+// Inside saveBill(event) in script.js (Triggered when form is submitted)
+let totalCost = parseFloat(document.getElementById("totalCost").value);
+let amountPaid = parseFloat(document.getElementById("amountPaid").value);
+let remainingAmount = totalCost - amountPaid;
+
+let bill = {
+    // ...
+    total_cost: totalCost,
+    amount_paid: amountPaid,
+    remaining_amount: remainingAmount,
+    // ...
+};
+```
+Explanation:
+The form itself doesn't have an input box for "Remaining Amount" to prevent manual mathematical errors. Instead, the moment the doctor hits "Save Bill", JavaScript uses `parseFloat()` (a function that converts text into decimal numbers safely) to grab the two amounts, completely calculates the remaining deficit (`remainingAmount = total - paid`), and sends that computed truth to the server automatically.

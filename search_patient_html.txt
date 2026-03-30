@@ -1,0 +1,46 @@
+==========================================
+  SEARCH-PATIENT.HTML - Search Patient Page
+==========================================
+
+This page allows for quick lookup of patients based on partial names, partial mobile numbers, or exact visit dates.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. SEARCH FILTERS
+```html
+<div class="search-filters">
+    <div class="form-group">
+        <label>Patient Name:</label>
+        <input type="text" id="searchName" placeholder="Enter name">
+    </div>
+    <div class="form-group">
+        <label>Mobile Number:</label>
+        <input type="text" id="searchMobile" placeholder="Enter mobile">
+    </div>
+    <div class="form-group">
+        <label>Visit Date:</label>
+        <input type="date" id="searchDate">
+    </div>
+    <div class="form-group" style="align-self: flex-end;">
+        <button onclick="searchPatients()">Search</button>
+    </div>
+</div>
+```
+Explanation:
+This HTML creates a horizontal line of three filtering options within a `.search-filters` container. The user can fill out any combination of these three boxes.
+The `onclick="searchPatients()"` triggers the client-side JavaScript filtering function when clicked. The `align-self: flex-end;` inline CSS simply pushes the button down so it aligns with the input boxes visually, rather than floating awkwardly at the top next to the labels.
+
+2. VIEW DETAILS BUTTON ACTION
+```javascript
+// Generated inside displayPatients() in script.js
+tr.innerHTML = `
+    <!-- ... patient data ... -->
+    <td><button onclick="alert('Name: ${p.name}\\nAge: ${p.age}\\nGender: ${p.gender}\\nAddress: ${p.address}')">View Details</button></td>
+`;
+```
+Explanation:
+Rather than taking the user to a new page to view basic details, this code implements a quick popup.
+When the "View Details" button is clicked, it immediately calls the browser's native `alert()` function.
+The `\\n` characters inside the string are "newline" characters. They force the popup box to display the Name, Age, Gender, and Address on neat, separate lines instead of one long, jumbled sentence.

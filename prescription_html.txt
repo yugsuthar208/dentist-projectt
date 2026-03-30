@@ -1,0 +1,31 @@
+==========================================
+  PRESCRIPTION.HTML - Prescription Page
+==========================================
+
+This page allows the doctor to issue prescriptions and notes for a patient.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. MULTI-LINE TEXT INPUTS
+```html
+<div class="form-group">
+    <label for="medicines">Medicines & Dosage: *</label>
+    <textarea id="medicines" rows="3" required placeholder="e.g., Amoxicillin 500mg (1-0-1) for 5 days"></textarea>
+</div>
+```
+Explanation:
+While standard text uses `<input type="text">`, prescriptions need to be long and span multiple lines. The `<textarea>` tag allows for this. The `rows="3"` attribute gives it a default visible height of three lines, though the user can drag to stretch it larger.
+The `placeholder` provides the doctor with an example formatting suggestion ("(1-0-1)") to keep prescriptions structured and professional.
+
+2. VIEW NOTES ALERT LOGIC
+```javascript
+// Generated inside loadPrescriptions() in script.js
+tr.innerHTML = `
+    <!-- ... -->
+    <td><button onclick="alert('Notes:\\n${p.notes}')">View Notes</button></td>
+`;
+```
+Explanation:
+Like the search details popup, this uses an inline `alert()` to display the prescription notes. Because notes might be very long, putting them directly into the table column would break the neat, horizontal layout and make the table messy. Hiding it behind an interactive button keeps the user interface clean and tabular.

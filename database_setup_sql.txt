@@ -1,0 +1,50 @@
+==========================================
+  DATABASE_SETUP.SQL - Database Creation Script
+==========================================
+
+This file is the architectural blueprint. It defines exactly how data is structured and stored inside the Node/MySQL backend.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. THE `users` TABLE & CORE ACCOUNT ARCHITECTURE
+```sql
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+Explanation:
+This SQL command builds the table holding developer access and security. 
+`AUTO_INCREMENT PRIMARY KEY` ensures every doctor receives a universally unique ID number assigned securely by the system (e.g., Doctor 1, Doctor 2). The system relies on this ID integer.
+The `UNIQUE` keyword next to the email enforces strict security protocols natively at the database level: the system literally cannot register the same email address twice, even during rapid, concurrent clicking on the signup screen.
+
+2. MULTI-TENANT ISOLATION (THE `user_id` FOREIGN KEY)
+```sql
+CREATE TABLE IF NOT EXISTS patients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    patient_id VARCHAR(10) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    /* ... */
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+```
+Explanation:
+This is the most critical security line in the entire project.
+The `user_id INT NOT NULL` column tracks exactly which doctor entered this patient record.
+The `FOREIGN KEY (user_id) REFERENCES users(id)` constraint is a strict, undeniable rule enforced by MySQL. It means: "It is mathematically impossible to save a patient record if it does not belong to a valid, existing doctor ID." 
+Furthermore, it protects data integrity. If a doctor deletes their account, the foreign key constraint ensures their patients are automatically handled securely, rather than littering the database with untethered, anonymous "ghost" records that could leak to the wider system.
+
+3. DEFAULT VALUES & TIMESTAMPS
+```sql
+is_uploaded TINYINT DEFAULT 0,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+```
+Explanation:
+`TINYINT DEFAULT 0` acts as a boolean flag (`0` for False, `1` for True). It logs whether this specific patient has successfully been pushed over the internet to Google Sheets. It defaults to `0` automatically upon creation without the JavaScript frontend needing to send it.
+The `TIMESTAMP DEFAULT CURRENT_TIMESTAMP` command automatically stamps the absolute microsecond a row is inserted. No code is required to make this happen; MySQL handles it autonomously via the system clock.

@@ -1,0 +1,87 @@
+==========================================
+  SERVER.JS - Backend Server (THE BRAIN)
+==========================================
+
+This file runs continuously on the Node.js server. It provides the REST API, connects to the MySQL database, enforces multi-tenant security, and orchestrates the automated SMTP email and Fast2SMS messaging systems.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. EXPRESS SESSION & SECURITY MIDDLEWARE
+```javascript
+app.use(session({
+    secret: 'dental_clinic_super_secret_key_123',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: false, // Set to true if using HTTPS
+        maxAge: 1000 * 60 * 60 * 24, // 24 hours
+        sameSite: 'lax',
+        httpOnly: true // Crucial for security
+    }
+}));
+```
+Explanation:
+This block creates the "memory state" for logged-in doctors. Without this, the server treats every single click as a brand-new, anonymous user.
+The `secret` cryptographically signs the cookie so hackers cannot forge a fake login token. 
+`httpOnly: true` is a vital cyber-defense mechanism. It literally forbids the browser's JavaScript from ever reading or stealing the cookie, effectively neutralizing XSS (Cross-Site Scripting) attacks from hijacking the doctor's account.
+
+2. THE "REQUIRE LOGIN" GUARD FUNCTION
+```javascript
+function requireLogin(req, res, next) {
+    if (!req.session || !req.session.userId) {
+        return res.status(401).json({ error: "Not logged in" });
+    }
+    next();
+}
+```
+Explanation:
+This is a custom middleware function acting as a bouncer. Everywhere in the code below this function, you will see it inserted into the route paths (e.g., `app.get("/api/patients", requireLogin, (req, res) => {...})`).
+When a frontend request hits the API, this code runs first. It checks if `req.session.userId` exists (which only happens upon successful password verification). If it does NOT exist, it instantly slaps back a `401 Unauthorized` HTTP error, terminating the request before it even gets close to the database queries. If it DOES exist, the `next()` command allows the request to pass into the database logic.
+
+3. MULTI-TENANT DATABASE QUERY (READING DATA)
+```javascript
+app.get("/api/patients", requireLogin, (req, res) => {
+    db.query(
+        "SELECT * FROM patients WHERE user_id = ? ORDER BY id DESC", 
+        [req.session.userId], 
+        (err, results) => {
+            // ... (handle results) ...
+        }
+    );
+});
+```
+Explanation:
+This snippet handles the dashboard loading. 
+Notice the `WHERE user_id = ?` clause. The `?` is heavily protected against SQL Injection by the `mysql2` package. It replaces the `?` with exactly `req.session.userId` (the ID of the doctor currently logged into this specific session). 
+Because of this hardcoded `WHERE` clause, Doctor A literally cannot write a database query that accidentally returns Doctor B's patients, proving complete multi-tenant isolation.
+
+4. AUTOMATED CRON NOTIFICATION ENGINE
+```javascript
+cron.schedule(notifyConfig.reminder.checkIntervalCron, () => {
+    // ... Calculates 'targetDate' string ...
+    const query = `
+        SELECT t.id as treatment_id, t.patient_name, t.next_date, ...
+        FROM treatments t
+        JOIN patients p ON t.patient_name = p.name ...
+        WHERE t.next_date = ? AND t.remaining_steps > 0
+    `;
+    db.query(query, [targetDate], (err, results) => {
+        results.forEach(row => {
+            // Check if already sent
+            db.query("SELECT id FROM notifications_sent WHERE ...", [], (err, checkResults) => {
+                if (checkResults.length === 0) {
+                    sendEmailReminder(row.patient_email, ...);
+                    sendSMSReminder(row.patient_mobile, ...);
+                    // Insert into notifications_sent to prevent spam repeats!
+                }
+            });
+        });
+    });
+});
+```
+Explanation:
+This is the automated beating heart of the reminder system. `cron.schedule` acts as an infinite alarm clock waking the server up every 30 minutes. 
+It utilizes a complex SQL `JOIN` statement: it finds all treatments containing the exact `targetDate` string (e.g., today + 2 hours), and then physically cross-references the `patients` table to steal their mobile number and email address in a single unified sweep.
+The second, nested `db.query` checks the `notifications_sent` registry. If it finds 0 matches (`checkResults.length === 0`), it knows this is a fresh target, blindingly fires the external SMTP Email and HTTP Fast2SMS packets over the internet, and then permanently logs exactly what it did inside `notifications_sent` so the next 30-minute cron cycle doesn't spam the patient a second time!

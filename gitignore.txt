@@ -1,0 +1,24 @@
+==========================================
+  .GITIGNORE - Git Ignore Rules
+==========================================
+
+This tiny file dictates what the Git Version Control system is fundamentally completely blind to.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. ENFORCING IGNORANCE OF HEAVY BLOAT
+```text
+node_modules/
+```
+Explanation:
+The trailing slash `node_modules/` specifies an entire directory. By defining this line, Git simply pretends the massive folder filled with tens of thousands of raw dependency scripts does not exist. It drops the total repository upload size from >150MB to ~1MB, ensuring swift and efficient cloud synch operations.
+
+2. IGNORING ENVIRONMENT & PASSWORDS
+```text
+.env
+notification-config.js
+```
+Explanation:
+By placing `notification-config.js` in this file, we create a strict firewall preventing the Fast2SMS keys and the encrypted Gmail App Passwords from being accidentally uploaded to a public repository like GitHub. Thus solving the #1 primary security vulnerability in coding: raw, committed credentials.

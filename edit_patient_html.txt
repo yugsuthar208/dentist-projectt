@@ -1,0 +1,44 @@
+==========================================
+  EDIT-PATIENT.HTML - Edit Patient Page
+==========================================
+
+This is the most complex page. It allows the doctor to search for any patient and edit all their interconnected records (Patient Details, Treatments, Prescriptions, Billing) within a single unified view.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. SEARCH TRIGGER
+```html
+<div class="search-bar">
+    <input type="text" id="editSearchInput" placeholder="Enter Patient Name or ID..." onkeypress="if(event.key === 'Enter') searchForEdit()">
+    <button onclick="searchForEdit()">Search</button>
+</div>
+```
+Explanation:
+This is the search functionality at the top. The user can type a name or an ID like "P005".
+The `onkeypress="if(event.key === 'Enter') searchForEdit()"` attribute is a quality-of-life feature: it triggers the `searchForEdit()` JavaScript function the moment the user hits the "Enter" key on their keyboard, without them needing to manually click the "Search" button.
+
+2. EDIT BUTTON IN SEARCH RESULTS
+```javascript
+// Generated inside searchForEdit() in script.js
+tr.innerHTML = `
+    <td>${p.patient_id}</td>
+    <td>${p.name}</td>
+    <!-- ... -->
+    <td><button onclick="loadPatientForEdit('${p.patient_id}')" style="background-color: #ffc107; color: #333;">Edit</button></td>
+`;
+```
+Explanation:
+When the search returns results, JavaScript builds a table dynamically. For each matching patient, it adds an "Edit" button.
+The critical part is `onclick="loadPatientForEdit('${p.patient_id}')"`. When clicked, this passes the specific patient's ID to the `loadPatientForEdit()` function, telling the frontend exactly which patient's data it needs to fetch from the Node.js server to populate the huge edit form below.
+
+3. HIDDEN TRACKING FIELDS (THE KEY TO CASCADING UPDATES)
+```html
+<input type="hidden" id="editPatientId">
+<input type="hidden" id="editOldName">
+```
+Explanation:
+These inputs are invisible on the screen (`type="hidden"`). 
+When you click "Edit" on a patient (e.g., John Doe), `script.js` secretly puts John's ID into `editPatientId` and his current name ("John Doe") into `editOldName`.
+If the doctor changes the name in the visible name field to "John Smith" and clicks Save, the server compares the visible name ("John Smith") with the hidden `editOldName` ("John Doe"). Because they don't match, the server knows the patient changed their name, and it automatically updates all of John's past treatments, prescriptions, and bills from "John Doe" to "John Smith" so no data is orphaned!

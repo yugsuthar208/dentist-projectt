@@ -1,0 +1,52 @@
+==========================================
+  INDEX.HTML - Home Page / Dashboard
+==========================================
+
+This is the main dashboard of the application. It acts as the central hub where the doctor can see an overview of their clinic's status.
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. THE NAVIGATION BAR
+```html
+<nav>
+    <a href="index.html">Home</a>
+    <a href="add-patient.html">Add Patient</a>
+    <!-- ... other links ... -->
+    <span id="user-greeting" class="user-greeting"></span>
+    <button class="logout-btn" onclick="logoutUser()">Logout</button>
+</nav>
+```
+Explanation:
+This `<nav>` section creates the menu at the top of the page. It contains standard `<a>` hyperlink tags to easily click between different pages.
+The `<span id="user-greeting">` is an empty placeholder. When the page loads, `script.js` checks if you are logged in, and if so, it injects "Hello, Dr. [Your Name]" into this span.
+The `Logout` button triggers the `logoutUser()` JavaScript function, which destroys your session and sends you back to the login screen.
+
+2. THE DASHBOARD STATS
+```html
+<div class="dashboard">
+    <div class="stat-box">
+        <h3>Total Patients</h3>
+        <p id="total-patients">Loading...</p>
+    </div>
+    <div class="stat-box">
+        <h3>Patients Today</h3>
+        <p id="patients-today">Loading...</p>
+    </div>
+    <div class="stat-box">
+        <h3>Ongoing Treatments</h3>
+        <p id="ongoing-treatments">Loading...</p>
+    </div>
+</div>
+```
+Explanation:
+This block creates three separate "cards" (using the CSS class `.stat-box`) to display live statistics. 
+Notice the `<p>` tags have specific IDs like `total-patients`. They start by saying "Loading...". When the page opens, `script.js` contacts the backend server (`GET /api/dashboard`), gets the real numbers, and uses JavaScript (`document.getElementById('total-patients').innerText = data.totalPatients`) to replace "Loading..." with the actual count.
+
+3. SCRIPT INCLUSION
+```html
+<script src="script.js"></script>
+```
+Explanation:
+This line at the very bottom of the `<body>` tells the browser to load and execute `script.js`. All HTML pages in this project have this line. It contains the logic to fetch the dashboard numbers, check authentication, and handle user interaction.

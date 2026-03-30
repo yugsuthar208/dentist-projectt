@@ -1,0 +1,91 @@
+==========================================
+  SCRIPT.JS - Frontend JavaScript (ALL LOGIC)
+==========================================
+
+This file contains the client-side logic that dictates how the user interface reacts and communicates with the Node.js backend. 
+
+------------------------------------------
+IMPORTANT CODE SNIPPETS & EXPLANATIONS:
+------------------------------------------
+
+1. THE UNIVERSAL GET DATA FUNCTION
+```javascript
+function getData(endpoint, callback) {
+    fetch(`${SERVER_URL}/api/${endpoint}`, {
+        credentials: "include" // VERY IMPORTANT
+    })
+    .then(response => {
+        if (response.status === 401) {
+            window.location.href = 'login.html';
+            throw new Error("Not logged in");
+        }
+        return response.json();
+    })
+    .then(data => callback(data))
+    .catch(error => console.error(`Error loading ${endpoint}:`, error));
+}
+```
+Explanation:
+Instead of writing `fetch(...)` twenty different times across the file to ask for Patients, Bills, or Prescriptions, this single utility function handles all GET requests centrally.
+`credentials: "include"` ensures the session cookie is strapped to every outbound request. 
+The `response.status === 401` block is the universal security fallback mechanism. If the server ever rejects the request because the doctor's login timeout expired, this function immediately hijacks the browser and aggressively forces a redirect to `login.html`, preventing the doctor from staring at a broken, unloaded screen.
+
+2. AUTO-FILLING PATIENT DETAILS ON BLUR
+```javascript
+function autofillPatientDetails() {
+    let nameInput = document.getElementById("patientName").value;
+    getData("patients", function(patients) {
+        let matchedPatient = patients.find(p => p.name.toLowerCase() === nameInput.toLowerCase());
+        
+        if (matchedPatient) {
+            let treatmentInput = document.getElementById("treatmentName") || document.getElementById("treatmentGiven") || document.getElementById("treatment");
+            if (treatmentInput && !treatmentInput.value) {
+                // Auto-fill the original problem into the treatment description box
+                treatmentInput.value = matchedPatient.problem;
+            }
+        }
+    });
+}
+```
+Explanation:
+This function makes the application feel intelligent. It fires the exact millisecond the doctor finishes typing a patient's name into a dropdown text box and clicks away (`onblur`).
+It scans the array of all known patients looking for an exact text match (`.toLowerCase()` ensures case-insensitivity so "john" matches "John"). 
+If it finds a match, it programmatically hunts down the currently active Treatment text box on the page and automatically injects the patient's original `problem` symptom directly into it, saving the doctor precious typing time.
+
+3. GOOGLE SHEETS EXPORT PIPELINE
+```javascript
+function sendToGoogleSheets() {
+    // ... gathers rows from table ...
+    fetch("https://script.google.com/macros/s/AKfycbyc9GntjA5G2E2hUfD3X2XG0H_D4lU-xRj8p8Wl8u2_gA9H1v2s7y2oP5K5r8T8c4f9/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataToExport)
+    }).then(() => {
+        alert("✅ Data successfully sent to Google Sheets!");
+        // ... updates database status flag ...
+    })
+}
+```
+Explanation:
+This function scrapes the massive Patient Records HTML table and transforms the HTML text back into raw JSON data arrays.
+It then issues an external POST request completely separate from the Node.js server, pointing blindly at a massive, complex Google Apps Script URL.
+`mode: "no-cors"` is a browser security bypass parameter. Because Google Apps Scripts heavily restrict Cross-Origin protocols natively, this flag forces the browser to send an "opaque" request. It means JavaScript cannot read Google's response payload confirming it worked, but it guarantees the data packet actually escapes the browser and reaches Google's servers without crashing.
+
+4. CASCADING NAME UPDATES IN EDIT PATIENT
+```javascript
+// Inside updatePatient(event)
+let oldName = document.getElementById("editOldName").value;
+let newName = document.getElementById("editName").value;
+
+if (oldName && newName && oldName !== newName) {
+    patientData.oldName = oldName; 
+}
+
+saveToServer(`patients/${patientId}`, patientData, function(response) {
+    // ...
+});
+```
+Explanation:
+When the "Save All Changes" button is clicked on the massive `edit-patient.html` screen, it calculates if the patient's identity has changed.
+If `oldName !== newName` (e.g., "Jane Doe" became "Jane Smith"), it physically bundles the `oldName` metadata directly into the JSON packet sent to the server. The Node.js backend intercepts this `oldName` flag, recognizes the identity shift, and runs `UPDATE` queries altering every historical Treatment, Prescription, and Bill connected to "Jane Doe" over to "Jane Smith". This keeps the relational database perfectly clean.
