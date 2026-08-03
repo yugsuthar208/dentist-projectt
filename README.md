@@ -29,34 +29,6 @@
 
 ---
 
-## 🏗️ System & Database Architecture
-
-```mermaid
-graph TD
-    Client["Browser Client / Frontend"] --> Server["Express.js Server (server.js)"]
-    
-    subgraph Security & Authentication Layer
-        Server --> SessionAuth["Express Session Auth"]
-        Server --> BcryptHash["Bcrypt Password Hashing"]
-    end
-
-    subgraph Data & Persistence Layer
-        Server --> MySQLDB[("MySQL Database (mysql2)")]
-        MySQLDB --> Patients["Patients Table"]
-        MySQLDB --> Billing["Billing & Invoices"]
-        MySQLDB --> Treatments["Treatment Progress"]
-    end
-
-    subgraph Background Services
-        Server --> NodeCron["Node-Cron Scheduler"]
-        NodeCron --> EmailService["Nodemailer Email Service"]
-    end
-
-    EmailService --> PatientInbox["Patient Email Reminders"]
-```
-
----
-
 ## 📂 Repository Structure
 
 ```
