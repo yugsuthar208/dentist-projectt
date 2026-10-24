@@ -11,7 +11,7 @@ IMPORTANT CODE SNIPPETS & EXPLANATIONS:
 1. EXPRESS SESSION & SECURITY MIDDLEWARE
 ```javascript
 app.use(session({
-    secret: 'dental_clinic_super_secret_key_123',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { 

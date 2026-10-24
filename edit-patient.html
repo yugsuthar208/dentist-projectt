@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Patient - Clinic Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>Clinic Management System</h1></header>
+
+    <nav>
+        <a href="index.html">🏠 Home</a>
+        <a href="add-patient.html">➕ Add Patient</a>
+        <a href="edit-patient.html" class="active">✏️ Edit Patient</a>
+        <a href="search-patient.html">🔍 Search Patient</a>
+        <a href="patient-service.html">🦷 Patient Service</a>
+        <a href="patients-records.html">📋 Patient Records</a>
+        <span id="user-greeting" class="user-greeting"></span>
+        <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </nav>
+
+    <div class="container" style="width:92%;">
+        <h2>✏️ Edit Patient Record</h2>
+
+        <!-- Step 1: Search by UPI or Name -->
+        <div id="search-section">
+            <div class="upi-lookup-box">
+                <h3>🔍 Find Patient by Universal ID or Name</h3>
+                <p>Enter the Patient Universal ID (e.g. <strong>P001</strong>) or patient name, then click Find Patient.</p>
+                <div class="upi-lookup-row">
+                    <input type="text" id="editSearchInput" list="patientNames"
+                        placeholder="Enter Patient ID (P001) or Name..."
+                        autocomplete="off">
+                    <datalist id="patientNames"></datalist>
+                    <button onclick="searchForEdit()">🔍 Find Patient</button>
+                </div>
+            </div>
+
+            <!-- Search Results -->
+            <table id="edit-search-table" style="display:none; margin-top:0;">
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Problem</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="edit-search-body"></tbody>
+            </table>
+        </div>
+
+        <!-- Step 2: Full Edit Form (hidden until patient selected) -->
+        <div id="edit-section" style="display:none; margin-top:24px;">
+            <div style="background:#e8f4fd; border:2px solid #0056b3; border-radius:10px; padding:12px 18px; margin-bottom:20px; display:flex; align-items:center; gap:10px;">
+                <span style="font-size:20px;">✏️</span>
+                <h3 id="editing-label" style="margin:0; color:#0056b3;"></h3>
+            </div>
+
+            <form id="edit-patient-form">
+                <input type="hidden" id="editPatientId">
+                <input type="hidden" id="editOldName">
+
+                <!-- Patient Details -->
+                <div class="edit-section-title">👤 Patient Details</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Patient Name *</label>
+                        <input type="text" id="editName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile Number *</label>
+                        <input type="text" id="editMobile" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="editEmail">
+                    </div>
+                    <div class="form-group">
+                        <label>Age *</label>
+                        <input type="number" id="editAge" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Gender *</label>
+                        <select id="editGender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Visit Date *</label>
+                        <input type="date" id="editVisitDate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Address *</label>
+                    <textarea id="editAddress" rows="2" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Problem / Chief Complaint *</label>
+                    <input type="text" id="editProblem" required>
+                </div>
+
+                <!-- Treatment Section -->
+                <div class="edit-section-title">💊 Treatment Details</div>
+                <div id="treatment-edit-area"><p class="no-record">Loading...</p></div>
+                <input type="hidden" id="editTreatmentId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Treatment Name</label>
+                        <input type="text" id="editTreatmentName" placeholder="e.g. Root Canal, Scaling...">
+                    </div>
+                    <div class="form-group">
+                        <label>Step Completed</label>
+                        <input type="text" id="editStepCompleted" placeholder="e.g. Step 1 done">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Remaining Steps</label>
+                        <input type="number" id="editRemainingSteps" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Next Appointment Date</label>
+                        <input type="date" id="editNextDate">
+                    </div>
+                </div>
+
+                <!-- Prescription Section -->
+                <div class="edit-section-title">📋 Prescription Details</div>
+                <div id="prescription-edit-area"><p class="no-record">Loading...</p></div>
+                <input type="hidden" id="editPrescriptionId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Treatment Given</label>
+                        <input type="text" id="editTreatmentGiven" placeholder="e.g. Tooth Extraction">
+                    </div>
+                    <div class="form-group">
+                        <label>Prescription Date</label>
+                        <input type="date" id="editPrescriptionDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Medicines</label>
+                    <textarea id="editMedicines" rows="2" placeholder="List medicines with dosage..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="editNotes" rows="2" placeholder="Additional notes..."></textarea>
+                </div>
+
+                <!-- Billing Section -->
+                <div class="edit-section-title">💰 Billing Details</div>
+                <div id="billing-edit-area"><p class="no-record">Loading...</p></div>
+                <input type="hidden" id="editBillId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Treatment (for billing)</label>
+                        <input type="text" id="editBillTreatment" placeholder="e.g. Root Canal">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Date</label>
+                        <input type="date" id="editPaymentDate">
+                    </div>
+                </div>
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label>Total Cost (₹)</label>
+                        <input type="number" id="editTotalCost" step="0.01" oninput="calcRemaining()">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount Paid (₹)</label>
+                        <input type="number" id="editAmountPaid" step="0.01" oninput="calcRemaining()">
+                    </div>
+                    <div class="form-group">
+                        <label>Remaining (₹)</label>
+                        <input type="number" id="editRemainingAmount" step="0.01" readonly>
+                    </div>
+                </div>
+
+                <div style="margin-top:20px; display:flex; gap:12px;">
+                    <button type="submit" class="btn-success btn-lg">💾 Save All Changes</button>
+                    <button type="button" class="btn-danger btn-lg" onclick="cancelEdit()">✖ Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

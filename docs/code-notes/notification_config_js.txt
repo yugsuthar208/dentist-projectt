@@ -14,7 +14,7 @@ email: {
     enabled: true,
     service: "gmail",
     user: "yugsuthar208@gmail.com",
-    password: "jwyd bejh gllk hrxf"
+    password: "YOUR_PRIVATE_CREDENTIAL"
 },
 ```
 Explanation:
@@ -24,7 +24,7 @@ These lines provide the Nodemailer package the absolute authority required to lo
 ```javascript
 sms: {
     enabled: true,
-    apiKey: "Urq8dcOBhsJzLF5gjNY31eVDZbCXR2xolHkw6vf9TanputGEQKmAw7sl64OeBqfroZInPxYVvdi8DRQ2"
+    apiKey: "YOUR_PRIVATE_CREDENTIAL"
 },
 ```
 Explanation:

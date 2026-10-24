@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Clinic Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>Clinic Management System</h1></header>
+
+    <nav>
+        <a href="index.html" class="active">🏠 Home</a>
+        <a href="add-patient.html">➕ Add Patient</a>
+        <a href="edit-patient.html">✏️ Edit Patient</a>
+        <a href="search-patient.html">🔍 Search Patient</a>
+        <a href="patient-service.html">🦷 Patient Service</a>
+        <a href="patients-records.html">📋 Patient Records</a>
+        <span id="user-greeting" class="user-greeting"></span>
+        <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </nav>
+
+    <div class="container">
+        <h2>Dashboard</h2>
+        <p style="color:#666; margin-top:-10px; margin-bottom:20px; font-size:14px;">Welcome to the Clinic Management System</p>
+
+        <div class="dashboard-cards">
+            <div class="card">
+                <h3>Total Patients</h3>
+                <p id="total-patients">0</p>
+            </div>
+            <div class="card">
+                <h3>Patients Today</h3>
+                <p id="patients-today">0</p>
+            </div>
+            <div class="card">
+                <h3>Ongoing Treatments</h3>
+                <p id="ongoing-treatments">0</p>
+            </div>
+        </div>
+
+        <div style="margin-top:32px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+            <a href="add-patient.html" style="text-decoration:none;">
+                <div style="background:#e8f4fd; border:1.5px solid #b8d9f4; border-radius:10px; padding:20px; text-align:center; transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size:32px; margin-bottom:8px;">➕</div>
+                    <div style="font-weight:600; color:#0056b3;">Add New Patient</div>
+                    <div style="font-size:12px; color:#666; margin-top:4px;">Register a new patient and get their Universal ID</div>
+                </div>
+            </a>
+            <a href="patient-service.html" style="text-decoration:none;">
+                <div style="background:#e8fdf0; border:1.5px solid #b4efc4; border-radius:10px; padding:20px; text-align:center; transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size:32px; margin-bottom:8px;">🦷</div>
+                    <div style="font-weight:600; color:#28a745;">Patient Service</div>
+                    <div style="font-size:12px; color:#666; margin-top:4px;">Treatment · Prescription · Billing</div>
+                </div>
+            </a>
+            <a href="patients-records.html" style="text-decoration:none;">
+                <div style="background:#fff8e8; border:1.5px solid #ffe0a0; border-radius:10px; padding:20px; text-align:center; transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size:32px; margin-bottom:8px;">📋</div>
+                    <div style="font-weight:600; color:#856404;">Patient Records</div>
+                    <div style="font-size:12px; color:#666; margin-top:4px;">View all patient data & history</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

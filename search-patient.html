@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Patient - Clinic Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>Clinic Management System</h1></header>
+
+    <nav>
+        <a href="index.html">🏠 Home</a>
+        <a href="add-patient.html">➕ Add Patient</a>
+        <a href="edit-patient.html">✏️ Edit Patient</a>
+        <a href="search-patient.html" class="active">🔍 Search Patient</a>
+        <a href="patient-service.html">🦷 Patient Service</a>
+        <a href="patients-records.html">📋 Patient Records</a>
+        <span id="user-greeting" class="user-greeting"></span>
+        <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </nav>
+
+    <div class="container">
+        <h2>🔍 Search Patients</h2>
+        <p style="color:#666; font-size:13px; margin-top:-10px; margin-bottom:20px;">Search by Universal Patient ID, name, mobile number, or visit date.</p>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Patient ID (Universal ID)</label>
+                <input type="text" id="searchId" list="patientNames" placeholder="e.g. P001, P002..." autocomplete="off" oninput="searchPatients()">
+                <datalist id="patientNames"></datalist>
+            </div>
+            <div class="form-group">
+                <label>Patient Name</label>
+                <input type="text" id="searchName" placeholder="Enter name..." oninput="searchPatients()">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Mobile Number</label>
+                <input type="text" id="searchMobile" placeholder="Enter mobile..." oninput="searchPatients()">
+            </div>
+            <div class="form-group">
+                <label>Visit Date</label>
+                <input type="date" id="searchDate" oninput="searchPatients()">
+            </div>
+        </div>
+        <button onclick="searchPatients()">🔍 Search</button>
+
+        <!-- Results Table -->
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Problem</th>
+                        <th>Visit Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="patient-table-body">
+                    <tr><td colspan="6" style="text-align:center; padding:24px; color:#888;">Loading patients...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

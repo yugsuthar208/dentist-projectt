@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Clinic Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Clinic Management System</h1>
+    </header>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <!-- Tab Buttons -->
+            <div class="auth-tabs">
+                <button id="login-tab" class="auth-tab active" onclick="showTab('login')">Login</button>
+                <button id="signup-tab" class="auth-tab" onclick="showTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form-section">
+                <h2>Welcome Back</h2>
+                <p style="color: #666; margin-bottom: 20px;">Enter your credentials to access your clinic</p>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button onclick="loginUser()" style="width: 100%; padding: 12px; font-size: 16px;">Login</button>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signup-form-section" style="display: none;">
+                <h2>Create Account</h2>
+                <p style="color: #666; margin-bottom: 20px;">Register to start managing your clinic</p>
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input type="text" id="signupName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="signupPassword" placeholder="Minimum 6 characters" required>
+                </div>
+                <button onclick="signupUser()" style="width: 100%; padding: 12px; font-size: 16px;">Create
+                    Account</button>
+            </div>
+
+            <!-- Message Area -->
+            <div id="auth-message" style="margin-top: 15px; text-align: center; font-weight: bold;"></div>
+        </div>
+    </div>
+
+    <script>
+        const SERVER_URL = "http://localhost:3000";
+
+        // Check if already logged in
+        fetch(SERVER_URL + "/api/auth/check", { credentials: "include" })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (data.loggedIn) {
+                    window.location.replace("index.html");
+                }
+            })
+            .catch(function () { });
+
+        function showTab(tab) {
+            if (tab === "login") {
+                document.getElementById("login-form-section").style.display = "block";
+                document.getElementById("signup-form-section").style.display = "none";
+                document.getElementById("login-tab").classList.add("active");
+                document.getElementById("signup-tab").classList.remove("active");
+            } else {
+                document.getElementById("login-form-section").style.display = "none";
+                document.getElementById("signup-form-section").style.display = "block";
+                document.getElementById("signup-tab").classList.add("active");
+                document.getElementById("login-tab").classList.remove("active");
+            }
+            document.getElementById("auth-message").innerText = "";
+        }
+
+        function showMessage(text, isError) {
+            let msgEl = document.getElementById("auth-message");
+            msgEl.innerText = text;
+            msgEl.style.color = isError ? "#dc3545" : "#28a745";
+        }
+
+        function loginUser() {
+            let email = document.getElementById("loginEmail").value;
+            let password = document.getElementById("loginPassword").value;
+
+            if (!email || !password) {
+                showMessage("Please fill in all fields!", true);
+                return;
+            }
+
+            fetch(SERVER_URL + "/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ email: email, password: password })
+            })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.error) {
+                        showMessage(data.error, true);
+                    } else {
+                        showMessage("Login successful! Redirecting...", false);
+                        window.location.replace("index.html");
+                    }
+                })
+                .catch(function () {
+                    showMessage("Server error. Make sure the server is running!", true);
+                });
+        }
+
+        function signupUser() {
+            let name = document.getElementById("signupName").value;
+            let email = document.getElementById("signupEmail").value;
+            let password = document.getElementById("signupPassword").value;
+
+            if (!name || !email || !password) {
+                showMessage("Please fill in all fields!", true);
+                return;
+            }
+
+            fetch(SERVER_URL + "/api/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ name: name, email: email, password: password })
+            })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.error) {
+                        showMessage(data.error, true);
+                    } else {
+                        showMessage(data.message, false);
+                        // Switch to login tab after successful signup
+                        setTimeout(function () {
+                            showTab("login");
+                            document.getElementById("loginEmail").value = email;
+                        }, 1000);
+                    }
+                })
+                .catch(function () {
+                    showMessage("Server error. Make sure the server is running!", true);
+                });
+        }
+
+        // Allow pres
+        // sing Enter to submit
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                if (document.getElementById("login-form-section").style.display !== "none") {
+                    loginUser();
+                } else {
+                    signupUser();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

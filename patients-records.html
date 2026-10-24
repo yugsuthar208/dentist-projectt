@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Records - Clinic Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>Clinic Management System</h1></header>
+
+    <nav>
+        <a href="index.html">🏠 Home</a>
+        <a href="add-patient.html">➕ Add Patient</a>
+        <a href="edit-patient.html">✏️ Edit Patient</a>
+        <a href="search-patient.html">🔍 Search Patient</a>
+        <a href="patient-service.html">🦷 Patient Service</a>
+        <a href="patients-records.html" class="active">📋 Patient Records</a>
+        <span id="user-greeting" class="user-greeting"></span>
+        <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </nav>
+
+    <div class="container" style="width:97%; max-width:none;">
+        <h2>📋 All Patients Records</h2>
+        <p style="color:#666; font-size:13px; margin-top:-12px; margin-bottom:16px;">Showing all patients — newest first. Search by Patient ID, name, mobile, or problem.</p>
+
+        <!-- Search + Action Bar -->
+        <div class="records-search-bar">
+            <input type="text" id="recordsSearch"
+                placeholder="🔍 Search by Patient ID, Name, Mobile or Problem..."
+                oninput="filterRecords()">
+            <button id="export-btn" class="btn-success" onclick="sendToGoogleSheets()">📤 Export to Google Sheets</button>
+            <button class="btn-danger" onclick="deleteAllData()">🗑 Delete All Data</button>
+        </div>
+
+        <!-- Records Table -->
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Address</th>
+                        <th>Problem</th>
+                        <th>Visit Date</th>
+                        <th>Treatment</th>
+                        <th>Prescription</th>
+                        <th>Medicines</th>
+                        <th>Total Bill</th>
+                        <th>Amount Paid</th>
+                        <th>Balance</th>
+                        <th>Next Appt.</th>
+                        <th>Added On</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="records-table-body">
+                    <tr><td colspan="17" style="text-align:center; padding:28px; color:#888;">Loading records...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

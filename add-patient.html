@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Patient - Clinic Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>Clinic Management System</h1></header>
+
+    <nav>
+        <a href="index.html">🏠 Home</a>
+        <a href="add-patient.html" class="active">➕ Add Patient</a>
+        <a href="edit-patient.html">✏️ Edit Patient</a>
+        <a href="search-patient.html">🔍 Search Patient</a>
+        <a href="patient-service.html">🦷 Patient Service</a>
+        <a href="patients-records.html">📋 Patient Records</a>
+        <span id="user-greeting" class="user-greeting"></span>
+        <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </nav>
+
+    <!-- UPI Modal Popup -->
+    <div id="upi-modal-overlay" class="modal-overlay">
+        <div class="modal-box">
+            <span class="modal-icon">🎉</span>
+            <h3>Patient Added Successfully!</h3>
+            <p>Note the Universal Patient ID below.<br>Use this ID in all sections (Treatment, Prescription, Billing).</p>
+            <div class="modal-upi-badge" id="modal-upi-id">P000</div>
+            <div class="modal-patient-name">Patient: <strong id="modal-patient-name"></strong></div>
+            <div class="modal-actions">
+                <button id="copy-upi-btn" class="btn-info" onclick="copyUPI()">📋 Copy ID</button>
+                <button class="btn-success" onclick="closeUPIModal()">✅ Done</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>➕ Add New Patient</h2>
+        <p style="color:#666; font-size:13px; margin-top:-10px; margin-bottom:20px;">
+            A <strong>Universal Patient ID</strong> (P001, P002...) will be automatically assigned after saving.
+            Use this ID in Treatment, Prescription, and Billing sections.
+        </p>
+
+        <form id="add-patient-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Patient Name *</label>
+                    <input type="text" id="name" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number *</label>
+                    <input type="text" id="mobile" placeholder="10-digit mobile number" maxlength="10" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="patient@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Age *</label>
+                    <input type="number" id="age" placeholder="Age in years" min="1" max="120" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Gender *</label>
+                    <select id="gender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Visit Date *</label>
+                    <input type="date" id="visitDate" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address *</label>
+                <textarea id="address" rows="2" placeholder="Full address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Problem / Chief Complaint *</label>
+                <input type="text" id="problem" placeholder="e.g. Tooth pain, Cavity, Cleaning, Braces..." required>
+            </div>
+            <button type="submit" class="btn-success btn-lg">💾 Save Patient &amp; Get Universal ID</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

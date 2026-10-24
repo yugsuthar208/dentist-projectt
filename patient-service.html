@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Service - Clinic Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>Clinic Management System</h1></header>
+
+    <nav>
+        <a href="index.html">🏠 Home</a>
+        <a href="add-patient.html">➕ Add Patient</a>
+        <a href="edit-patient.html">✏️ Edit Patient</a>
+        <a href="search-patient.html">🔍 Search Patient</a>
+        <a href="patient-service.html" class="active">🦷 Patient Service</a>
+        <a href="patients-records.html">📋 Patient Records</a>
+        <span id="user-greeting" class="user-greeting"></span>
+        <button class="logout-btn" onclick="logoutUser()">Logout</button>
+    </nav>
+
+    <div class="container" style="width:92%; max-width:1200px;">
+        <h2>🦷 Patient Service Center</h2>
+
+        <!-- ==================== UPI LOOKUP ==================== -->
+        <div class="upi-lookup-box">
+            <h3>🔍 Universal Patient Lookup</h3>
+            <p>Enter the patient's Universal ID (e.g. <strong>P001</strong>) or their name to load their information. You must look up a patient before adding Treatment, Prescription, or Billing records.</p>
+            <div class="upi-lookup-row">
+                <input type="text" id="serviceUIDInput" list="patientNames"
+                    placeholder="Enter Patient ID (P001) or Patient Name..."
+                    autocomplete="off">
+                <datalist id="patientNames"></datalist>
+                <button onclick="serviceUPILookup()">🔍 Look Up Patient</button>
+            </div>
+
+            <!-- Patient found card -->
+            <div id="patient-info-card" class="patient-info-card">
+                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                    <span class="patient-badge"></span>
+                    <strong id="info-name" style="font-size:17px;"></strong>
+                    <span class="badge badge-success" style="margin-left:auto;">✅ Patient Verified</span>
+                </div>
+                <div class="patient-details-inline">
+                    <div class="detail-item">
+                        <span class="label">Mobile</span>
+                        <span class="value" id="info-mobile">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Age</span>
+                        <span class="value" id="info-age">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Gender</span>
+                        <span class="value" id="info-gender">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Chief Problem</span>
+                        <span class="value" id="info-problem">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Last Visit</span>
+                        <span class="value" id="info-visit">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Not found message -->
+            <div id="patient-not-found-msg" class="patient-not-found-msg"></div>
+        </div>
+
+        <!-- ==================== TABS ==================== -->
+        <div class="service-tabs">
+            <button class="service-tab active" id="tab-btn-treatment"   onclick="switchServiceTab('treatment')">💊 Treatment Progress</button>
+            <button class="service-tab"         id="tab-btn-prescription" onclick="switchServiceTab('prescription')">📋 Prescription</button>
+            <button class="service-tab"         id="tab-btn-billing"     onclick="switchServiceTab('billing')">💰 Billing</button>
+        </div>
+
+        <!-- ==================== TAB: TREATMENT ==================== -->
+        <div id="tab-treatment" class="tab-pane active">
+            <div class="service-form-section">
+                <h3>💊 Add Treatment Progress</h3>
+                <form id="service-treatment-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Treatment Name *</label>
+                            <input type="text" id="svc-treatmentName" placeholder="e.g. Root Canal, Scaling, Tooth Filling..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Step Completed *</label>
+                            <input type="text" id="svc-stepCompleted" placeholder="e.g. Step 1: Extraction completed" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Remaining Steps</label>
+                            <input type="number" id="svc-remainingSteps" placeholder="e.g. 2" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Next Appointment Date</label>
+                            <input type="date" id="svc-nextDate">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-success">💾 Save Treatment</button>
+                </form>
+            </div>
+
+            <div class="section-title">📋 Treatment History for this Patient</div>
+            <div id="service-treatments-list">
+                <p class="no-record">🔍 Look up a patient above to see their treatment history.</p>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: PRESCRIPTION ==================== -->
+        <div id="tab-prescription" class="tab-pane">
+            <div class="service-form-section">
+                <h3>📋 Add Prescription</h3>
+                <form id="service-prescription-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Treatment Given *</label>
+                            <input type="text" id="svc-treatmentGiven" placeholder="e.g. Tooth Extraction, Cavity Filling, Root Canal..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Prescription Date *</label>
+                            <input type="date" id="svc-prescriptionDate" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Medicines Prescribed *</label>
+                        <textarea id="svc-medicines" rows="3" placeholder="List all medicines with dosage and frequency..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Doctor's Notes / Instructions</label>
+                        <textarea id="svc-notes" rows="2" placeholder="Additional notes, dietary restrictions, follow-up instructions..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-success">💾 Save Prescription</button>
+                </form>
+            </div>
+
+            <div class="section-title">📋 Prescription History for this Patient</div>
+            <div id="service-prescriptions-list">
+                <p class="no-record">🔍 Look up a patient above to see their prescription history.</p>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: BILLING ==================== -->
+        <div id="tab-billing" class="tab-pane">
+            <div class="service-form-section">
+                <h3>💰 Add Bill / Payment</h3>
+                <form id="service-bill-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Treatment (for billing) *</label>
+                            <input type="text" id="svc-billTreatment" placeholder="e.g. Root Canal, Scaling, Braces..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Date *</label>
+                            <input type="date" id="svc-paymentDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Total Cost (₹) *</label>
+                            <input type="number" id="svc-totalCost" placeholder="0.00" step="0.01" min="0" oninput="calcServiceRemaining()" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount Paid (₹) *</label>
+                            <input type="number" id="svc-amountPaid" placeholder="0.00" step="0.01" min="0" oninput="calcServiceRemaining()" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Remaining Amount (₹)</label>
+                            <input type="number" id="svc-remainingAmount" placeholder="0.00" step="0.01" readonly>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-success">💾 Save Bill</button>
+                </form>
+            </div>
+
+            <div class="section-title">📋 Billing History for this Patient</div>
+            <div id="service-bills-list">
+                <p class="no-record">🔍 Look up a patient above to see their billing history.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

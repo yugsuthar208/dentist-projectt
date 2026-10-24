@@ -1,0 +1,21 @@
+{
+  "name": "dental-clinic-project",
+  "version": "1.0.0",
+  "description": "Dentist Clinic Management System with MySQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file=.env server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.19.0",
+    "mysql2": "^3.6.0",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^8.0.4"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
