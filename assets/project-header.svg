@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="420" viewBox="0 0 1440 420" role="img" aria-labelledby="title desc">
+  <title id="title">Dental Clinic Management System</title>
+  <desc id="desc">A college project bringing patient records, treatments, prescriptions and billing together.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071c34"/><stop offset="1" stop-color="#103b56"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#a6e9e1" stroke-opacity=".045"/></pattern>
+  </defs>
+  <rect width="1440" height="420" rx="24" fill="url(#bg)"/>
+  <rect width="1440" height="420" rx="24" fill="url(#grid)"/>
+  <path d="M0 414H1440" stroke="#40d6bf" stroke-width="12"/>
+  <circle cx="1248" cy="211" r="139" fill="#163f57" stroke="#72dcca" stroke-opacity=".18"/>
+  <circle cx="1248" cy="211" r="113" fill="none" stroke="#72dcca" stroke-opacity=".12" stroke-dasharray="4 9"/>
+  <path d="M1238 141c-25-18-59-6-60 24-1 23 14 39 20 62 7 29 6 52 20 52 12 0 12-50 30-50s18 50 30 50c14 0 13-23 20-52 6-23 21-39 20-62-1-30-35-42-60-24-7 5-13 5-20 0Z" fill="none" stroke="#69e2cb" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1215 166c7-5 14-5 22 0" fill="none" stroke="#69e2cb" stroke-width="5" stroke-linecap="round"/>
+  <g font-family="Segoe UI,Arial,sans-serif">
+    <rect x="68" y="55" width="238" height="32" rx="16" fill="#193f54" stroke="#69e2cb" stroke-opacity=".3"/>
+    <circle cx="86" cy="71" r="4" fill="#69e2cb"/>
+    <text x="100" y="76" fill="#9cebdc" font-size="12" font-weight="600" letter-spacing="2">COLLEGE PROJECT</text>
+    <text x="66" y="167" fill="#fff" font-size="65" font-weight="700" letter-spacing="-2">Dental Clinic</text>
+    <text x="66" y="242" fill="#fff" font-size="65" font-weight="700" letter-spacing="-2">Management System</text>
+    <text x="70" y="288" fill="#b4cbd9" font-size="21">Patient care, records and clinic workflows — in one place.</text>
+    <path d="M70 323H1010" stroke="#a6e9e1" stroke-opacity=".18"/>
+    <text x="70" y="361" fill="#78e0ce" font-size="16" font-weight="600" letter-spacing="1">PATIENTS</text>
+    <text x="210" y="361" fill="#57768a" font-size="16">/</text>
+    <text x="238" y="361" fill="#cfdee7" font-size="16" font-weight="600" letter-spacing="1">TREATMENTS</text>
+    <text x="417" y="361" fill="#57768a" font-size="16">/</text>
+    <text x="445" y="361" fill="#cfdee7" font-size="16" font-weight="600" letter-spacing="1">PRESCRIPTIONS</text>
+    <text x="656" y="361" fill="#57768a" font-size="16">/</text>
+    <text x="684" y="361" fill="#cfdee7" font-size="16" font-weight="600" letter-spacing="1">BILLING</text>
+  </g>
+</svg>
