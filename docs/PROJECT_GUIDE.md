@@ -1,6 +1,6 @@
 # Project guide
 
-[← Back to the project](../README.md) · [Installation help](SETUP.md)
+[← Back to the project](../README.md) · [Installation help](SETUP.md) · [Presentation walkthrough](DEMO_WALKTHROUGH.md)
 
 ## Project objective
 

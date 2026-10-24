@@ -1,123 +1,159 @@
 <div align="center">
 
-<img src="assets/project-header.svg" alt="Dental Clinic Management System — patients, treatments, prescriptions and billing" width="100%" />
+<img src="assets/cover-editorial.png" alt="Care, connected. Dental Clinic Management System — illustrated project cover" width="100%" />
 
-# 🦷 Dental Clinic Management System
+<a id="-dental-clinic-management-system"></a>
 
-**A simple clinic workflow. A complete patient record.**
+# Dental Clinic Management System
 
-A full-stack college project for managing patients, dental treatments,<br />
-prescriptions, appointments and billing through one browser-based application.
+**From the first visit to the remaining balance — keep the record connected.**
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=202020)
-![Node.js](https://img.shields.io/badge/Node.js-24%2B-339933?style=flat-square&logo=nodedotjs&logoColor=white)
-![Express](https://img.shields.io/badge/Express-4-172B4D?style=flat-square&logo=express&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?style=flat-square&logo=mysql&logoColor=white)
+A full-stack college project that brings patient registration, treatment progress,<br />
+prescriptions and billing into one straightforward clinic workflow.
 
-[Overview](#-overview) · [Screenshots](#-application-tour) · [Features](#-features) · [Run locally](#-run-locally) · [How it works](#-how-it-works)
+![HTML5](https://img.shields.io/badge/HTML5-0A2445?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-0A2445?style=flat-square&logo=css&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-0A2445?style=flat-square&logo=javascript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js_24%2B-2359BC?style=flat-square&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express_4-2359BC?style=flat-square&logo=express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL_8-2359BC?style=flat-square&logo=mysql&logoColor=white)
+
+<a href="#project">The project</a> &nbsp; / &nbsp;
+<a href="#screens">Screen tour</a> &nbsp; / &nbsp;
+<a href="#start">Run locally</a> &nbsp; / &nbsp;
+<a href="#architecture">Architecture</a> &nbsp; / &nbsp;
+<a href="docs/DEMO_WALKTHROUGH.md">Presentation guide ↗</a>
 
 </div>
 
----
+<br />
 
-## ✨ Overview
+<table>
+  <tr>
+    <td width="33%" align="center"><h3>7</h3><b>Application screens</b><br /><sub>From sign-in to consolidated records</sub></td>
+    <td width="34%" align="center"><h3>3</h3><b>Patient service tabs</b><br /><sub>Treatment · Prescription · Billing</sub></td>
+    <td width="33%" align="center"><h3>1</h3><b>Shared patient reference</b><br /><sub>A patient ID used across the workflow</sub></td>
+  </tr>
+</table>
 
-A dental visit involves more than a single appointment. Patient details, treatment progress, medicines and payments all need to stay connected. This project brings those everyday tasks into a small, easy-to-follow web application.
+<a id="project"></a>
 
-After signing in, a doctor can register a patient, find them using a generated **Universal Patient ID** such as `P001`, and manage their care through the **Patient Service Center**. A shared records view brings patient information, treatment, prescriptions and balances together.
+## 01 / A small system for a connected clinic
 
-The implementation uses **plain HTML, CSS and JavaScript**, an **Express backend**, and a **MySQL database**. Separate pages, readable functions and direct SQL queries keep the project approachable for learning and demonstration.
+A patient arrives with a complaint. A treatment takes several visits. A prescription needs to stay with the right record. A payment may cover only part of the bill.
+
+This project brings those details together. A doctor signs in, registers a patient and uses a generated **Universal Patient ID**, such as `P001`, to find that patient across the application. The **Patient Service Center** puts treatment, prescription and billing forms behind one shared lookup; **Patient Records** brings their information back together.
+
+The stack stays approachable: **plain HTML, CSS and JavaScript**, an **Express API**, and **MySQL** for persistence. Separate pages and readable functions make the implementation easy to follow during a project review.
 
 <div align="center">
 
-<img src="assets/screenshots/02-dashboard.jpg" alt="Actual running dashboard showing six demo patients, six visits today and three ongoing treatments" width="100%" />
+<a href="assets/screenshots/02-dashboard.jpg"><img src="assets/screenshots/02-dashboard.jpg" alt="Actual application dashboard with six fictional patients and three ongoing treatments" width="100%" /></a>
 
-<sub><b>The running application.</b> Dashboard counts are loaded from MySQL. All records shown in this README are fictional demonstration data.</sub>
+<sub><b>THE RUNNING APPLICATION</b> · Dashboard data is loaded from MySQL.</sub><br />
+<sub>All patient details in these screenshots are fictional and were created in a separate demo database.</sub>
 
 </div>
 
-## 📸 Application tour
+## 02 / Follow the patient, not the paperwork
 
-Click any image to view it at full size. These screenshots were captured from the current application running locally with a separate demo database.
+<img src="assets/patient-journey.svg" alt="Illustrated journey showing how patient P001 connects registration, treatment, prescriptions and billing" width="100%" />
+
+The ID is the common reference. Look up a patient, switch between service tabs and review their history without repeatedly entering their identity. The records page then provides a wider view of patient details, care and payments.
+
+<a id="screens"></a>
+
+## 03 / Inside the application
+
+**Nine actual screenshots. One connected workflow.** Select an image to inspect it at full size.
 
 <table>
   <tr>
     <td width="50%" valign="top">
-      <h3>01 · Account access</h3>
-      <a href="assets/screenshots/01-login.jpg"><img src="assets/screenshots/01-login.jpg" alt="Login screen with email and password fields" width="100%" /></a>
-      <p>Sign up, log in and access the clinic through a session-based account.</p>
+      <sub>ACCESS &amp; IDENTITY</sub>
+      <h3>A clinic account to begin.</h3>
+      <a href="assets/screenshots/01-login.jpg"><img src="assets/screenshots/01-login.jpg" alt="Account login with Sign Up tab" width="100%" /></a>
+      <p>Create an account, sign in and access its clinic records through a server-side session.</p>
     </td>
     <td width="50%" valign="top">
-      <h3>02 · Patient registration</h3>
-      <a href="assets/screenshots/03-registration.jpg"><img src="assets/screenshots/03-registration.jpg" alt="Patient registration form" width="100%" /></a>
-      <p>Capture contact details, age, visit date and the chief complaint. Receive a generated patient ID after saving.</p>
+      <sub>PATIENT REGISTRATION</sub>
+      <h3>Every record starts here.</h3>
+      <a href="assets/screenshots/03-registration.jpg"><img src="assets/screenshots/03-registration.jpg" alt="Patient registration form with contact, visit and complaint fields" width="100%" /></a>
+      <p>Capture patient details, a visit date and the chief complaint. A patient ID is generated after saving.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <h3>03 · Treatment progress</h3>
-      <a href="assets/screenshots/04-treatment.jpg"><img src="assets/screenshots/04-treatment.jpg" alt="Patient Service Center with verified demo patient and treatment tab" width="100%" /></a>
-      <p>Look up a patient once, record completed steps and plan the next appointment.</p>
+      <sub>TREATMENT PROGRESS</sub>
+      <h3>Know the next step.</h3>
+      <a href="assets/screenshots/04-treatment.jpg"><img src="assets/screenshots/04-treatment.jpg" alt="Treatment entry and history for fictional patient P001" width="100%" /></a>
+      <p>Record the completed step, remaining steps and next appointment date against the selected patient.</p>
     </td>
     <td valign="top">
-      <h3>04 · Prescriptions</h3>
-      <a href="assets/screenshots/05-prescription.jpg"><img src="assets/screenshots/05-prescription.jpg" alt="Prescription tab for a selected demo patient" width="100%" /></a>
-      <p>Save the treatment given, medicines, date and doctor's notes against the selected patient.</p>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top">
-      <h3>05 · Billing &amp; payments</h3>
-      <a href="assets/screenshots/06-billing.jpg"><img src="assets/screenshots/06-billing.jpg" alt="Billing form and history with total charges, payments and remaining balance" width="100%" /></a>
-      <p>Track charges and payments in rupees, calculate the remaining balance and view payment history.</p>
-    </td>
-    <td valign="top">
-      <h3>06 · Consolidated records</h3>
-      <a href="assets/screenshots/07-records.jpg"><img src="assets/screenshots/07-records.jpg" alt="Consolidated patient records table with fictional patients" width="100%" /></a>
-      <p>Review patient information alongside treatment, prescriptions, billing and follow-up details.</p>
+      <sub>PRESCRIPTIONS</sub>
+      <h3>Keep the details together.</h3>
+      <a href="assets/screenshots/05-prescription.jpg"><img src="assets/screenshots/05-prescription.jpg" alt="Prescription entry and history for the selected demo patient" width="100%" /></a>
+      <p>Save treatment details, medicines, prescription dates and notes in the same patient workflow.</p>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <h3>07 · Patient search</h3>
-      <a href="assets/screenshots/08-search.jpg"><img src="assets/screenshots/08-search.jpg" alt="Search results for demo patient P001" width="100%" /></a>
-      <p>Find patients by ID, name, mobile number or visit date and open their details.</p>
+      <sub>BILLING &amp; PAYMENTS</sub>
+      <h3>Make the balance clear.</h3>
+      <a href="assets/screenshots/06-billing.jpg"><img src="assets/screenshots/06-billing.jpg" alt="Billing history with total charges, amounts paid and outstanding balance in rupees" width="100%" /></a>
+      <p>Enter charges and payments in rupees, calculate the remaining amount and review payment history.</p>
     </td>
     <td valign="top">
-      <h3>08 · Record editing</h3>
-      <a href="assets/screenshots/09-edit.jpg"><img src="assets/screenshots/09-edit.jpg" alt="Edit page showing the selected patient's existing details" width="100%" /></a>
-      <p>Find an existing patient and load their patient, treatment, prescription and billing details for editing.</p>
+      <sub>CONSOLIDATED RECORDS</sub>
+      <h3>See the connected picture.</h3>
+      <a href="assets/screenshots/07-records.jpg"><img src="assets/screenshots/07-records.jpg" alt="Combined patient table with treatment, prescription and billing information" width="100%" /></a>
+      <p>Browse patient details alongside treatment, prescription, billing and follow-up information.</p>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <sub>PATIENT SEARCH</sub>
+      <h3>Find the right record.</h3>
+      <a href="assets/screenshots/08-search.jpg"><img src="assets/screenshots/08-search.jpg" alt="Search by Universal Patient ID returning fictional patient P001" width="100%" /></a>
+      <p>Search by patient ID, name, mobile number or visit date, then open the matching patient's details.</p>
+    </td>
+    <td valign="top">
+      <sub>RECORD EDITING</sub>
+      <h3>Keep the information current.</h3>
+      <a href="assets/screenshots/09-edit.jpg"><img src="assets/screenshots/09-edit.jpg" alt="Existing patient details and treatment records loaded for editing" width="100%" /></a>
+      <p>Load a patient's existing details and related clinical records into the editing screen.</p>
     </td>
   </tr>
 </table>
 
-## 🧩 Features
+## 04 / What the project brings together
 
-| Module | What it does |
+| Area | Implemented capability |
 | :--- | :--- |
-| **Dashboard** | Shows total patients, patients visiting today and ongoing treatments. |
-| **Accounts** | Supports registration, bcrypt password hashing, login and logout with server-side sessions. |
-| **Patient management** | Registers patients, generates patient IDs, searches records and edits existing details. |
-| **Patient Service Center** | Places treatment, prescription and billing tabs behind a shared patient lookup. |
-| **Treatment tracking** | Saves treatment names, completed steps, remaining steps and next appointment dates. |
-| **Prescriptions** | Stores medicines, treatment details, notes and prescription dates. |
-| **Billing** | Stores total charges and amounts paid, calculates balances and displays payment status. |
-| **Patient records** | Combines clinic records in a searchable table with horizontal scrolling. |
-| **Optional integrations** | Includes email reminders, Fast2SMS reminders, email reports and Google Sheets export. Requires the user's own configuration. |
+| **Clinic overview** | Database-backed counts for total patients, today's patients and ongoing treatments. |
+| **Account access** | Registration, bcrypt password hashing, session-based login and logout. |
+| **Patient records** | Registration, generated IDs, search, detail viewing and editing. |
+| **Clinical workflow** | Shared patient lookup with treatment, prescription and billing tabs. |
+| **Care history** | Treatment steps, appointment dates, prescription notes and stored payment records. |
+| **Financial tracking** | Total charges, amounts paid, remaining balances and payment status. |
+| **Optional connections** | Email reminders and reports, Fast2SMS reminders and Google Sheets export using your own configuration. |
 
-> **Current version:** treatment, prescription and billing entry share `patient-service.html`. The older standalone-page explanations are preserved in [`docs/code-notes/`](docs/code-notes/) as historical learning notes.
+<details>
+<summary><b>A note on the current version</b></summary>
 
-## 🚀 Run locally
+Treatment, prescription and billing entry now share `patient-service.html`. Earlier explanatory `.txt` files are preserved in [`docs/code-notes/`](docs/code-notes/); they describe selected snippets from an older layout and are not the runnable application.
 
-### 1. Prerequisites
+The application stores appointment dates, rather than a calendar of exact time slots. Optional provider integrations are separate from the core local workflow and need the user's own accounts and settings.
 
-- **Node.js 24 or newer**, with npm.
-- **MySQL 8**, running locally.
-- A browser and a MySQL client such as **MySQL Workbench**.
+</details>
 
-### 2. Clone and install
+<a id="start"></a>
+
+## 05 / Run it on your machine
+
+**You need:** Node.js **24+**, **MySQL 8**, and a browser. MySQL Workbench is a convenient way to run the setup SQL.
+
+**① Get the project**
 
 ```bash
 git clone https://github.com/yugsuthar208/dentist-projectt.git
@@ -125,21 +161,13 @@ cd dentist-projectt
 npm ci
 ```
 
-### 3. Create the database
+**② Create the database**
 
-Open [`database_setup.sql`](database_setup.sql) in MySQL Workbench and execute it. It creates the `dental_clinic` database and its five core tables.
+Open [`database_setup.sql`](database_setup.sql) in MySQL Workbench and execute it. It creates the `dental_clinic` database and the five core tables. The server creates the reminder log and adds missing compatibility columns on startup.
 
-Alternatively, from the MySQL command-line client, run the following using your checkout's absolute path:
+**③ Add your local settings**
 
-```sql
-SOURCE /absolute/path/to/dentist-projectt/database_setup.sql;
-```
-
-The server creates the reminder log table and adds missing compatibility columns when it connects. [`migrate.sql`](migrate.sql) is available for older databases; it is not required for a fresh installation.
-
-### 4. Configure your connection
-
-Copy [`.env.example`](.env.example) to a new file named `.env` in the project folder.
+Copy [`.env.example`](.env.example) to `.env` and enter your own MySQL credentials:
 
 ```dotenv
 DB_HOST=localhost
@@ -148,117 +176,119 @@ DB_PASSWORD=your_mysql_password
 DB_NAME=dental_clinic
 ```
 
-Set `DB_PASSWORD` to your own local MySQL password. The `.env` file is ignored by Git. Optional email and SMS integrations are disabled by default.
-
-### 5. Start the application
+**④ Start the clinic**
 
 ```bash
 npm start
 ```
 
-Open **[http://localhost:3000/login.html](http://localhost:3000/login.html)**, choose **Sign Up**, create an account and log in. A new account starts with no patients; the screenshot records are not bundled into the database.
+Open **[localhost:3000/login.html](http://localhost:3000/login.html)** → choose **Sign Up** → create an account → log in → add your first patient.
+
+> The `.env` file is ignored by Git. New accounts start empty; the screenshot data is not bundled into your database. Email and SMS are disabled by default.
 
 <details>
-<summary><b>Optional: email, SMS and Google Sheets</b></summary>
+<summary><b>Configure the optional integrations</b></summary>
 
-For email reminders and reports, set `EMAIL_ENABLED=true`, `SMTP_USER` and `SMTP_PASSWORD` in `.env`. The default service is Gmail; use your own app password where required by your provider.
+| Integration | Configuration |
+| :--- | :--- |
+| Email | Set `EMAIL_ENABLED=true`, `SMTP_USER` and `SMTP_PASSWORD` in `.env`. |
+| SMS | Set `SMS_ENABLED=true` and `FAST2SMS_API_KEY` in `.env`. |
+| Google Sheets | Deploy your own compatible Apps Script receiver and set `SCRIPT_URL` in `script.js`. |
 
-For SMS reminders, set `SMS_ENABLED=true` and `FAST2SMS_API_KEY` using your own provider account. Messaging services may require credits or account approval.
+Use your own sender credentials, provider accounts and export endpoint. These services may need app passwords, provider approval or credits. The reminder scheduler checks every 30 minutes using the application's date-based appointment logic.
 
-The reminder scheduler runs every 30 minutes. It uses configured appointment-date logic and a sent-notification log; it should not be presented as a time-slot appointment calendar.
-
-To use Google Sheets export, deploy your own compatible Google Apps Script endpoint and set `SCRIPT_URL` in `script.js`. The endpoint is intentionally blank in this repository. [See the setup guide](docs/SETUP.md#optional-integrations) for the export fields.
+See the **[complete setup guide](docs/SETUP.md)** for configuration fields, export payloads, database migration and troubleshooting.
 
 </details>
 
-## 🔎 How it works
+<a id="architecture"></a>
 
-```mermaid
-flowchart LR
-    A[Doctor signs in] --> B[Dashboard]
-    B --> C[Register or find patient]
-    C --> D[Patient ID]
-    D --> E[Patient Service Center]
-    E --> F[Treatment progress]
-    E --> G[Prescription]
-    E --> H[Billing]
-    F --> I[Consolidated patient records]
-    G --> I
-    H --> I
-```
-
-The browser sends JSON requests to Express. Express checks the session, runs MySQL queries and returns the requested data. Account-owned records are associated with `user_id`; clinical records use `patient_id` to associate them with the selected patient.
+## 06 / Simple layers, clear responsibilities
 
 ```mermaid
 flowchart TB
-    UI[HTML + CSS + JavaScript] <-->|JSON / HTTP| API[Node.js + Express]
-    API <-->|SQL queries| DB[(MySQL)]
-    API --- AUTH[bcrypt + express-session]
-    API --> CRON[node-cron]
-    CRON -. optional .-> MAIL[Nodemailer / SMTP]
-    CRON -. optional .-> SMS[Fast2SMS]
-    UI -. optional export .-> SHEETS[Google Apps Script / Sheets]
+    Browser["Browser · HTML / CSS / JavaScript"]
+    Server["Express API · Node.js"]
+    Session["Account sessions · bcrypt"]
+    Database[("MySQL · Clinic records")]
+    Browser <-->|"JSON requests and responses"| Server
+    Server --- Session
+    Server <-->|"SQL queries"| Database
+    style Browser fill:#eaf0fc,stroke:#2359bc,color:#0a2445
+    style Server fill:#2359bc,stroke:#2359bc,color:#fff
+    style Session fill:#f7f5ef,stroke:#b7c6dc,color:#0a2445
+    style Database fill:#e5f5ef,stroke:#4f9f8b,color:#0a2445
 ```
 
-## 🛠 Technology choices
+The browser collects form input and sends JSON requests. Express checks the session, runs MySQL queries and returns the result. `user_id` associates records with the signed-in account; `patient_id` links clinical records to the selected patient.
 
-| Layer | Technology | Role |
-| :--- | :--- | :--- |
-| Interface | HTML5 · CSS3 | Forms, navigation, dashboard cards and tables |
-| Browser logic | JavaScript | Fetch requests, validation, search and balance calculations |
-| Backend | Node.js · Express 4 | Static pages and JSON API routes |
-| Database | MySQL · mysql2 | Persistent relational data and parameterized queries |
-| Accounts | bcrypt · express-session | Password hashing and login sessions |
-| Reminders | node-cron · Nodemailer | Scheduled checks and optional email delivery |
-| Integrations | Fast2SMS · Google Apps Script | Optional SMS and spreadsheet export |
+<details>
+<summary><b>Explore the database and optional services</b></summary>
 
-## 📁 Project structure
+| Table | Responsibility |
+| :--- | :--- |
+| `users` | Account identity and hashed passwords |
+| `patients` | Patient identity, contact details, complaint and visit date |
+| `treatments` | Progress, remaining steps and the next appointment date |
+| `prescriptions` | Treatment given, medicines, notes and date |
+| `bills` | Charges, payments and balances |
+| `notifications_sent` | Reminder delivery log |
+
+The supplied schema declares `user_id` foreign keys on the main record tables. Clinical patient references are application-level associations; the schema does not declare patient foreign keys for those fields.
+
+`node-cron` schedules reminder checks, `nodemailer` handles configured email delivery, and Fast2SMS handles configured SMS delivery. Google Sheets export runs from the browser through a separately deployed Apps Script endpoint.
+
+</details>
+
+<details>
+<summary><b>Browse the source map</b></summary>
 
 ```text
 dentist-projectt/
-├── README.md                  # Project showcase and quick start
-├── package.json               # Dependencies and start command
-├── package-lock.json          # Locked dependency versions
-├── .env.example               # Configuration template; no credentials
-├── server.js                  # Express API, sessions and reminder scheduler
-├── notification-config.js     # Reads optional messaging settings from environment
-├── database_setup.sql         # Fresh database schema
-├── migrate.sql                # Compatibility migration for older databases
-├── login.html                 # Login and account registration
-├── index.html                 # Dashboard
-├── add-patient.html            # Patient registration
-├── search-patient.html         # Patient search
-├── edit-patient.html           # Patient and clinical record editing
-├── patient-service.html        # Treatment, prescription and billing tabs
-├── patients-records.html       # Consolidated records
-├── script.js                  # Shared browser-side functions
-├── style.css                  # Application styling
-├── assets/
-│   ├── project-header.svg      # README artwork
-│   └── screenshots/            # Actual application captures
-└── docs/
-    ├── SETUP.md                # Configuration and troubleshooting
-    ├── PROJECT_GUIDE.md        # Modules, database and presentation walkthrough
-    └── code-notes/             # Earlier explanatory notes
+├── server.js                  Express routes, sessions, SQL and reminders
+├── script.js                  Shared browser functions and API calls
+├── style.css                  Application styling
+├── login.html                 Sign-up and login
+├── index.html                 Dashboard
+├── add-patient.html            Registration and generated patient ID
+├── search-patient.html         Patient search
+├── edit-patient.html           Patient and clinical record editing
+├── patient-service.html        Treatment / Prescription / Billing
+├── patients-records.html       Consolidated records
+├── database_setup.sql         Fresh database schema
+├── migrate.sql                Compatibility migration
+├── notification-config.js     Optional provider settings
+├── .env.example               Private configuration template
+├── package.json               Dependencies and start command
+├── package-lock.json          Locked dependency versions
+├── assets/                    Cover artwork, diagrams and screenshots
+└── docs/                      Setup, project guide and demonstration
 ```
 
-## 🎓 Project demonstration
+</details>
 
-1. **Create an account** and explain session-based access.
-2. **Register a patient** and note the generated patient ID.
-3. **Find that patient** in the Patient Service Center.
-4. **Add treatment progress**, a prescription and a payment.
-5. **Open Patient Records** to review the combined information.
-6. **Return to the dashboard** to show updated counts, then log out.
+## 07 / Ready for a closer look
 
-For a module-by-module explanation and verification notes, read the **[Project Guide](docs/PROJECT_GUIDE.md)**. For installation help, read the **[Setup Guide](docs/SETUP.md)**.
+| Start here | What you will find |
+| :--- | :--- |
+| **[Presentation walkthrough →](docs/DEMO_WALKTHROUGH.md)** | A suggested six-minute demonstration, one sample patient journey and questions for discussion. |
+| **[Project guide →](docs/PROJECT_GUIDE.md)** | Page responsibilities, database model, request flow, API groups and verification results. |
+| **[Setup guide →](docs/SETUP.md)** | Installation, environment settings, optional integrations and troubleshooting. |
+| **[Earlier learning notes →](docs/code-notes/)** | Preserved explanations from the earlier version. |
+
+**Verification snapshot · 24 October 2026**<br />
+The application was run with Node.js 24.11.0 and a separate MySQL database. Account access, patient creation, treatment, prescriptions, billing and retrieval were checked. Browser checks covered patient search, record loading and service tabs. The demo dashboard showed **6 patients · 6 visits today · 3 ongoing treatments**. [Read the detailed results](docs/PROJECT_GUIDE.md#verification-performed).
+
+Email/SMS delivery and Sheets export were not exercised. This is a local college demonstration, with further work needed before use with real clinic data.
 
 ---
 
 <div align="center">
 
-**Developed as a college project by [@yugsuthar208](https://github.com/yugsuthar208)**
+### Patient details. Treatment progress. One connected workflow.
 
-<sub>Patient management · Treatment tracking · Prescriptions · Billing</sub>
+A college project by **[Yug Suthar](https://github.com/yugsuthar208)**
+
+<a href="#project">Back to the project ↑</a>
 
 </div>

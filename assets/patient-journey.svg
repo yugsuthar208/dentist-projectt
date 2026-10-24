@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="520" viewBox="0 0 1440 520" role="img" aria-labelledby="title desc">
+<title id="title">One patient ID connects the clinic workflow</title>
+<desc id="desc">Illustrative demo patient P001 connects registration, treatment progress, prescriptions and billing. A sample bill of 4500 rupees has 2000 paid and 2500 remaining.</desc>
+<defs><pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#193d76" opacity=".075"/></pattern></defs>
+<rect width="1440" height="520" rx="20" fill="#f7f5ef"/>
+<rect width="1440" height="520" rx="20" fill="url(#dots)"/>
+<g font-family="Segoe UI,Arial,sans-serif">
+  <text x="56" y="54" fill="#2359bc" font-size="13" letter-spacing="3" font-weight="700">THE PATIENT JOURNEY</text>
+  <text x="56" y="108" fill="#0a2445" font-size="35" font-weight="700" letter-spacing="-1">One patient. Four connected records.</text>
+  <text x="56" y="143" fill="#647187" font-size="18">A familiar ID follows the patient through the workflow.</text>
+  <rect x="56" y="195" width="300" height="260" rx="16" fill="#0a2445"/>
+  <text x="82" y="231" fill="#9cb7df" font-size="12" letter-spacing="2">PATIENT REFERENCE</text>
+  <rect x="82" y="254" width="132" height="58" rx="9" fill="#2359bc"/>
+  <text x="104" y="295" fill="#fff" font-size="36" font-weight="700">P001</text>
+  <text x="82" y="350" fill="#fff" font-size="22" font-weight="600">Aarav Shah</text>
+  <text x="82" y="378" fill="#b6c7df" font-size="15">Fictional demonstration patient</text>
+  <path d="M82 400H330" stroke="#35506f"/>
+  <text x="82" y="430" fill="#84d9c6" font-size="14">Look up once. Use across tabs.</text>
+  <path d="M356 324H404M404 230V420M404 230H442M404 420H442" fill="none" stroke="#2359bc" stroke-width="2"/>
+  <rect x="442" y="195" width="438" height="121" rx="13" fill="#fff" stroke="#d8dfeb"/>
+  <circle cx="478" cy="231" r="16" fill="#eaf0fc"/><text x="469" y="236" fill="#2359bc" font-size="13" font-weight="700">01</text>
+  <text x="508" y="236" fill="#0a2445" font-size="20" font-weight="700">Register</text>
+  <text x="467" y="272" fill="#647187" font-size="16">Patient details, complaint and visit date</text>
+  <text x="467" y="296" fill="#2359bc" font-size="14">A generated ID connects the next steps.</text>
+  <rect x="906" y="195" width="478" height="121" rx="13" fill="#fff" stroke="#d8dfeb"/>
+  <circle cx="942" cy="231" r="16" fill="#eaf0fc"/><text x="933" y="236" fill="#2359bc" font-size="13" font-weight="700">02</text>
+  <text x="972" y="236" fill="#0a2445" font-size="20" font-weight="700">Track treatment</text>
+  <text x="931" y="272" fill="#647187" font-size="16">Completed step, remaining steps, next visit</text>
+  <text x="931" y="296" fill="#2359bc" font-size="14">Keep progress attached to the patient.</text>
+  <rect x="442" y="334" width="438" height="121" rx="13" fill="#fff" stroke="#d8dfeb"/>
+  <circle cx="478" cy="370" r="16" fill="#eaf0fc"/><text x="469" y="375" fill="#2359bc" font-size="13" font-weight="700">03</text>
+  <text x="508" y="375" fill="#0a2445" font-size="20" font-weight="700">Record prescriptions</text>
+  <text x="467" y="411" fill="#647187" font-size="16">Treatment given, medicines and notes</text>
+  <text x="467" y="435" fill="#2359bc" font-size="14">Review the selected patient's history.</text>
+  <rect x="906" y="334" width="478" height="121" rx="13" fill="#fff" stroke="#d8dfeb"/>
+  <circle cx="942" cy="370" r="16" fill="#eaf0fc"/><text x="933" y="375" fill="#2359bc" font-size="13" font-weight="700">04</text>
+  <text x="972" y="375" fill="#0a2445" font-size="20" font-weight="700">Follow the balance</text>
+  <text x="931" y="411" fill="#647187" font-size="16">INR 4,500 total − 2,000 paid = 2,500 due</text>
+  <text x="931" y="435" fill="#2359bc" font-size="14">See payments and outstanding amounts.</text>
+  <text x="1384" y="491" text-anchor="end" fill="#647187" font-size="12" letter-spacing="1">WORKFLOW ILLUSTRATION · FICTIONAL DATA</text>
+</g>
+</svg>
